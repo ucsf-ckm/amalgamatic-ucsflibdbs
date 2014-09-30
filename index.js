@@ -31,9 +31,9 @@ exports.search = function (query, callback) {
         resp.on('end', function () {
             var $ = cheerio.load(rawData);
             var result = [];
-            $('td.views-field-title').each(function () {
+            $('td.views-field-title a').each(function () {
                 result.push({
-                    'name': $(this).text().trim(),
+                    'name': $(this).text(),
                     'url': $(this).attr('href')
                 });
             });
