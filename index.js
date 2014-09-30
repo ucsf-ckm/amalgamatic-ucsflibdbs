@@ -33,7 +33,7 @@ exports.search = function (query, callback) {
             var result = [];
             $('td.views-field-title').each(function () {
                 result.push({
-                    'name': $(this).text(),
+                    'name': $(this).text().trim(),
                     'url': $(this).attr('href')
                 });
             });
