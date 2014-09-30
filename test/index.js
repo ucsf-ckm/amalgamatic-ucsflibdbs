@@ -69,4 +69,17 @@ describe('dbs', function () {
 			done();
 		});
 	});
+
+	it('trims whitespace from labels', function (done) {
+		nock('https://www.library.ucsf.edu:443')
+			.get('/db?filter0=medicine&apage=&filter2=All')
+			.reply('200', '<table class="views-table cols-5"><tbody><tr class="odd views-row-first"><td class="views-field views-field-title"><a href="https://example.com/1">   Medicine 1	</a></td></tr><tr class="even"><td class="views-field views-field-title"><a href="https://example.com/2">Medicine 2 </a></td></tr></tbody></table>');
+
+		dbs.search({searchTerm: 'medicine'}, function (err, result) {
+			expect(err).to.be.not.ok;
+			expect(result.data[0].name).to.equal('Medicine 1');
+			expect(result.data[1].name).to.equal('Medicine 2');
+			done();
+		});
+	});
 });
