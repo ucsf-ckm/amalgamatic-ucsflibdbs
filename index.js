@@ -10,18 +10,14 @@ exports.search = function (query, callback) {
         return;
     }
 
-    var options = {
-        host: 'www.library.ucsf.edu',
-        port: 443,
-        path: '/db?' +
-            querystring.stringify({
-                filter0: query.searchTerm,
-                apage: '',
-                filter2: 'All'
-            })
-    };
+    var myUrl = 'https://www.library.ucsf.edu/db?' +
+        querystring.stringify({
+            filter0: query.searchTerm,
+            apage: '',
+            filter2: 'All'
+        });
 
-    https.get(options, function (resp) {
+    https.get(myUrl, function (resp) {
         var rawData = '';
 
         resp.on('data', function (chunk) {
@@ -38,7 +34,7 @@ exports.search = function (query, callback) {
                 });
             });
 
-            callback(null, {data: result});
+            callback(null, {data: result, url: myUrl});
         });
     }).on('error', function (e) {
         callback(e);
