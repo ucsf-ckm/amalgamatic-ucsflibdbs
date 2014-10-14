@@ -1,6 +1,8 @@
 /*jshint expr: true*/
 
-var dbs = require('../index.js');
+var rewire = require('rewire');
+
+var dbs = rewire('../index.js');
 
 var nock = require('nock');
 nock.disableNetConnect();
@@ -14,10 +16,16 @@ var it = lab.test;
 
 var afterEach = lab.afterEach;
 
+var revert;
+
 describe('dbs', function () {
 
 	afterEach(function (done) {
 		nock.cleanAll();
+		if (revert) {
+			revert();
+			revert = null;
+		}
 		done();
 	});
 
@@ -106,5 +114,15 @@ describe('dbs', function () {
 			expect(result.url).to.equal('https://www.library.ucsf.edu/db?filter0=medicine&apage=&filter2=All');
 			done();
 		});
+	});
+
+	it('should set withCredentials to false for browserify', function (done) {
+		revert = dbs.__set__({https: {get: function (options) {
+			expect(options.withCredentials).to.be.false;
+			done();
+			return {on: function () {}};
+		}}});
+
+		dbs.search({searchTerm: 'medicine'});
 	});
 });

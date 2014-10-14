@@ -1,6 +1,7 @@
 var querystring = require('querystring');
 var cheerio = require('cheerio');
 var https = require('https');
+var url = require('url');
 
 exports.search = function (query, callback) {
     'use strict';
@@ -17,7 +18,10 @@ exports.search = function (query, callback) {
             filter2: 'All'
         });
 
-    https.get(myUrl, function (resp) {
+    var options = url.parse(myUrl);
+    options.withCredentials = false;
+
+    https.get(options, function (resp) {
         var rawData = '';
 
         resp.on('data', function (chunk) {
