@@ -2,6 +2,15 @@ var querystring = require('querystring');
 var cheerio = require('cheerio');
 var https = require('https');
 var url = require('url');
+var extend = require('util-extend');
+
+var options = {
+    url: 'https://www.library.ucsf.edu/db'
+};
+
+exports.setOptions = function (newOptions) {
+    options = extend(options, newOptions);
+};
 
 exports.search = function (query, callback) {
     'use strict';
@@ -11,17 +20,17 @@ exports.search = function (query, callback) {
         return;
     }
 
-    var myUrl = 'https://www.library.ucsf.edu/db?' +
+    var myUrl = options.url + '?' +
         querystring.stringify({
             filter0: query.searchTerm,
             apage: '',
             filter2: 'All'
         });
 
-    var options = url.parse(myUrl);
-    options.withCredentials = false;
+    var myOptions = url.parse(myUrl);
+    myOptions.withCredentials = false;
 
-    https.get(options, function (resp) {
+    https.get(myOptions, function (resp) {
         var rawData = '';
 
         resp.on('data', function (chunk) {

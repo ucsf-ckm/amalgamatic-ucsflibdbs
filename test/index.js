@@ -125,4 +125,17 @@ describe('dbs', function () {
 
 		dbs.search({searchTerm: 'medicine'});
 	});
+
+	it('should allow a url to be set with setOptions()', function (done) {
+		nock('https://example.com:8000')
+			.get('/path?filter0=medicine&apage=&filter2=All')
+			.reply(200, '<table class="views-table cols-5"><tbody><tr class="odd views-row-first"><td class="views-field views-field-title"><a href="https://example.com/1">Medicine 1</a></td></tr></tbody></table>');
+
+		dbs.setOptions({url: 'https://example.com:8000/path'});
+		dbs.search({searchTerm: 'medicine'}, function (err, result) {
+			expect(err).to.be.not.ok;
+			expect(result.data).to.deep.equal([{name: 'Medicine 1', url: 'https://example.com/1'}]);
+			done();
+		});
+	});
 });
