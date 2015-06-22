@@ -1,4 +1,7 @@
 
+## [**1.2.1**](https://github.com/ucsf-ckm/amalgamatic-ucsflibdbs/issues?milestone=8&state=closed)
+- [**#19**](https://github.com/ucsf-ckm/amalgamatic-ucsflibdbs/issues/19) resolve urls
+
 ## [**1.2.0**](https://github.com/ucsf-ckm/amalgamatic-ucsflibdbs/issues?milestone=7&state=closed)
 - [**#17**](https://github.com/ucsf-ckm/amalgamatic-ucsflibdbs/issues/17) fall back to More Information link if no link for title
 
