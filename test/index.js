@@ -151,4 +151,17 @@ describe('dbs', function () {
 			done();
 		});
 	});
+
+	it('should convert More Information link to have a FQDN', function (done) {
+		nock('https://example.com:8000')
+			.get('/path?filter0=medicine&apage=&filter2=All')
+			.reply(200, '<table class="views-table cols-5"><tbody><tr class="odd views-row-first"><td class="views-field views-field-title">Medicine 1</td><td class="views-field views-field-view"><a href="/1">More Information</a></td></tr></tbody></table>');
+
+		dbs.setOptions({url: 'https://example.com:8000/path'});
+		dbs.search({searchTerm: 'medicine'}, function (err, result) {
+			expect(err).to.be.not.ok;
+			expect(result.data).to.deep.equal([{name: 'Medicine 1', url: 'https://www.library.ucsf.edu/1'}]);
+			done();
+		});
+	});
 });

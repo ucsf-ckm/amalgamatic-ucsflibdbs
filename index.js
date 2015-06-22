@@ -52,7 +52,7 @@ exports.search = function (query, callback) {
                 } else {
                     result.push({
                         'name': $(this).text().trim(),
-                        'url': $('td.views-field-view a').attr('href')
+                        'url': url.resolve('https://www.library.ucsf.edu/', $('td.views-field-view a').attr('href'))
                     });
                 }
             });
