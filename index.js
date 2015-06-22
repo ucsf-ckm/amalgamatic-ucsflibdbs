@@ -40,11 +40,21 @@ exports.search = function (query, callback) {
         resp.on('end', function () {
             var $ = cheerio.load(rawData);
             var result = [];
-            $('td.views-field-title a').each(function () {
-                result.push({
-                    'name': $(this).text(),
-                    'url': $(this).attr('href')
-                });
+            $('td.views-field-title').each(function () {
+                var a = $(this).children('a');
+                if (a.length) {
+                    a.each(function () {
+                        result.push({
+                            'name': $(this).text(),
+                            'url': $(this).attr('href')
+                        });
+                    });   
+                } else {
+                    result.push({
+                        'name': $(this).text().trim(),
+                        'url': $('td.views-field-view a').attr('href')
+                    });
+                }
             });
 
             callback(null, {data: result, url: myUrl});
