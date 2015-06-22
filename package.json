@@ -6,6 +6,7 @@
     "url": "https://github.com/ucsf-ckm/amalgamatic-ucsflibdbs.git"
   },
   "version": "1.2.0",
+  "license": "MIT",
   "dependencies": {
     "cheerio": "^0.17.0",
     "code": "^1.4.1",
